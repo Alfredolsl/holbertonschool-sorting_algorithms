@@ -8,7 +8,7 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current, *prev_node, *next_node, *temp;
+	listint_t *current, *prev_node, *next_node;
 
 	if (!list || !*list)
 		return;
@@ -39,13 +39,4 @@ void insertion_sort_list(listint_t **list)
 		}
 		current = current->next;
 	}
-	while (*list && (*list)->prev)
-		*list = (*list)->prev;
-	while (*list && (*list)->next)
-	{
-		temp = (*list)->next;
-		free(*list);
-		*list = temp;
-	}
-	free(*list);
 }
