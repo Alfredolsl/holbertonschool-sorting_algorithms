@@ -1,61 +1,70 @@
 #include "sort.h"
 
 /**
- * partition - lomuto's partition scheme
- * this works by assuming the pivot element
- * as the last element
- *
- * @array: array to use
- * @low: first index
- * @high: last index
- * @size: size of array
- *
- * Return: pivot element
+ * swap - swaps two elements
+ * @a: integer to swap with b
+ * @b: integer to swap with a
  */
 
-int partition(int *array, int low, int high, size_t size)
+void swap(int *a, int *b)
 {
-	int pivot = array[high], temp;
-	int i = low - 1, j;
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
 
-	for (j = low; j < high; ++j)
+/**
+ * lomuto_partition - orders a subset of an array of integers
+ * according to the lomuto partition scheme
+ * (last element is the pivot)
+ * @array: array to sort
+ * @left: starting index of the subset
+ * @right: ending index of the subset
+ *
+ * Return: the final partition index
+ */
+
+int lomuto_partition(int *array, int left, int right, size_t size)
+{
+	int i, j;
+	int pivot = array[right];
+
+	i = left - 1;
+
+	for (j = left; j <= right - 1; j++)
 	{
-		if (array[j] <= pivot)
+		if (array[j] < pivot)
 		{
 			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
+			swap(&array[i], &array[j]);
 			print_array(array, size);
 		}
 	}
-	temp = array[i + 1];
-	array[i + 1] = array[high];
-	array[high] = temp;
+	swap(&array[i + 1], &array[right]);
 	print_array(array, size);
 
 	return (i + 1);
 }
 
 /**
- * quick_sort_operation - performs quick sort using
- * lowest index and highest index
+ * qs_operation - performs quick sort using
+ * leftest index and rightest index
  * @array: unordered array to sort
- * @low: first index
- * @high: last index
+ * @left: first index
+ * @right: last index
  * @size: size of index
  */
 
-void quick_sort_operation(int *array, int low, int high, size_t size)
+void qs_operation(int *array, int left, int right, size_t size)
 {
-	int partition_index;
+	int p;
 
-	if (low < high)
-	{
-		partition_index = partition(array, low, high, size);
-		quick_sort_operation(array, low, partition_index - 1, size);
-		quick_sort_operation(array, partition_index + 1, high, size);
-	}
+	if (left >= right)
+		return;
+
+	p = lomuto_partition(array, left, right, size);
+	qs_operation(array, left, p - 1, size);
+	qs_operation(array, p + 1, right, size);
 }
 
 /**
@@ -67,5 +76,8 @@ void quick_sort_operation(int *array, int low, int high, size_t size)
 
 void quick_sort(int *array, size_t size)
 {
-	quick_sort_operation(array, 0, size - 1, size);
+	if (!array)
+		return;
+
+	qs_operation(array, 0, size - 1, size);
 }
