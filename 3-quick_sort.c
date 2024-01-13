@@ -16,25 +16,25 @@
 int partition(int *array, int low, int high, size_t size)
 {
 	int pivot = array[high], temp;
-	int i = low, j;
+	int i = low - 1, j;
 
 	for (j = low; j < high; ++j)
 	{
-		if (array[j] < pivot)
+		if (array[j] <= pivot)
 		{
+			i++;
 			temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
-			++i;
 			print_array(array, size);
 		}
 	}
-	temp = array[i];
-	array[i] = array[high];
+	temp = array[i + 1];
+	array[i + 1] = array[high];
 	array[high] = temp;
 	print_array(array, size);
 
-	return (i);
+	return (i + 1);
 }
 
 /**
