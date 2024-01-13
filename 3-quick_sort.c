@@ -3,7 +3,7 @@
 /**
  * partition - lomuto's partition scheme
  * this works by assuming the pivot element
- * with the last element
+ * as the last element
  *
  * @array: array to use
  * @low: first index
@@ -18,25 +18,31 @@ int partition(int *array, int low, int high, size_t size)
 	int i, pivot, j, temp;
 
 	i = low;
-	pivot = array[high];
+	j = high;
+	pivot = array[low];
 
-	for (j = low; j < high; j++)
+	while (i < j)
 	{
-		if (array[j] <= pivot)
+		while (array[i] <= pivot && i < high)
+			i++;
+
+		while (array[j] > pivot && j > low)
+			j--;
+
+		if (i < j)
 		{
 			temp = array[i];
 			array[i] = array[j];
 			array[j] = temp;
-			i++;
 			print_array(array, size);
 		}
 	}
-	temp = array[i];
-	array[i] = array[high];
-	array[high] = temp;
+	temp = array[low];
+	array[low] = array[j];
+	array[j] = temp;
 
 	print_array(array, size);
-	return (i);
+	return (j);
 }
 
 /**
@@ -45,6 +51,7 @@ int partition(int *array, int low, int high, size_t size)
  * @array: unordered array to sort
  * @low: first index
  * @high: last index
+ * @size: size of index
  */
 
 void quick_sort_operation(int *array, int low, int high, size_t size)
