@@ -20,6 +20,7 @@ void swap(int *a, int *b)
  * @array: array to sort
  * @left: starting index of the subset
  * @right: ending index of the subset
+ * @size: size of array
  *
  * Return: the final partition index
  */
